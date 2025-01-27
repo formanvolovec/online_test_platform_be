@@ -1,5 +1,5 @@
 package s3_connection
-
+/*
 import (
 	"log"
 	"os"
@@ -37,3 +37,4 @@ func InitS3() {
 	S3Client = s3.New(sess)
 	log.Println("Successfully connected to AWS S3")
 }
+*/
