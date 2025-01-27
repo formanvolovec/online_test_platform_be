@@ -1,27 +1,26 @@
 package main
 
 import (
-  "fmt"
-  "log"
-  "net/http"
-  "otfch_be/db_connection"
+	"log"
+	"otfch_be/db_connection"
+
+	"github.com/gofiber/fiber/v2"
 )
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprintln(w, "Hello, World!")
-}
-
 func main() {
-  pool, err := db_connection.InitDB() 
-  if err != nil {
-    log.Fatalf("Error initializing database: %v", err)
-  }
-  defer pool.Close()
+	//Initializing the Application
+	app := fiber.New()
 
-  http.HandleFunc("/", helloHandler)
-  fmt.Println("Server is running on http://localhost:8080")
-  err = http.ListenAndServe(":8080", nil)
-  if err != nil {
-    fmt.Println("Error starting server:", err)
-  }
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Hello, Fiber!")
+	})
+
+	app.Listen(":3000")
+
+	//Initializing the database
+	pool, err := db_connection.InitDB()
+	if err != nil {
+		log.Fatalf("Error initializing database: %v", err)
+	}
+	defer pool.Close()
 }
